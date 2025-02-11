@@ -113,3 +113,6 @@ static_collected
 *.sqlite3
 migrations/
 db.sqlite3
+
+# paste
+/media/notices/
