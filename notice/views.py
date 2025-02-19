@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from .models import Notice
+from .forms import CommentForm
 from category.models import Category
 
 # Create your views here.
@@ -16,9 +17,26 @@ def notice_list(request):
 
 
 def show_notice(request, id):
-    notice = Notice.objects.get(id=id)
+    notice = get_object_or_404(Notice, id=id)
+    comments = notice.comments.all()
+    form = CommentForm()
 
-    return render(request, 'notice.html', {'notice': notice})
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = notice
+            comment.user = request.user
+            comment.save()
+            return redirect('notice', id=notice.id)
+    
+    context = {
+        'notice': notice,
+        'comments': comments,
+        'form': form,
+    }
+
+    return render(request, 'notice.html', context)
 
 
 def show_notice_for_category(request, category_id):
