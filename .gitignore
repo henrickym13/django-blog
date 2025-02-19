@@ -115,4 +115,4 @@ migrations/
 db.sqlite3
 
 # paste
-/media/notices/
+app/media/notices/
