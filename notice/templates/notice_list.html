@@ -14,12 +14,39 @@
         </div>
     </div>
     <!-- Nested row for non-featured blog posts-->
+    {% if is_searching %}
+    <h3>Resultados para "{{ query }}"</h3>
+    {% if notices %}
+        <!-- Renderiza a lista de notícias filtradas -->
+        <div class="row">
+            {% for notice in notices %}
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <a href="{% url 'notice' notice.id %}">
+                        <img class="card-img-top" src="{{ notice.image.url }}" alt="{{ notice.title }}" />
+                    </a>
+                    <div class="card-body">
+                        <div class="small text-muted">{{ notice.created_at }}</div>
+                        <h2 class="card-title h4">{{ notice.title }}</h2>
+                        <p class="card-text">{{ notice.preview }}</p>
+                        <a class="btn btn-primary" href="{% url 'notice' notice.id %}">Ler mais →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">Nenhuma notícia encontrada para "{{ query }}".</p>
+    {% endif %}
+{% else %}
+    <!-- Renders news normally when there is no search -->
     <div class="row">
         {% for notice in notices %}
         <div class="col-lg-6">
             <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="{{ notice.image.url }}"
-                        alt="..." /></a>
+                <a href="{% url 'notice' notice.id %}">
+                    <img class="card-img-top" src="{{ notice.image.url }}" alt="{{ notice.title }}" />
+                </a>
                 <div class="card-body">
                     <div class="small text-muted">{{ notice.created_at }}</div>
                     <h2 class="card-title h4">{{ notice.title }}</h2>
@@ -30,6 +57,7 @@
         </div>
         {% endfor %}
     </div>
+{% endif %}
 
     {% include 'components/_pagination.html' %}
 </div>

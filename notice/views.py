@@ -6,14 +6,26 @@ from category.models import Category
 
 # Create your views here.
 def notice_list(request):
+    query = request.GET.get('q', '')
     first_notice = Notice.objects.first()
-    notice_list = Notice.objects.all()[1:]
+
+    if query:
+        notice_list = Notice.objects.filter(title__icontains=query)
+    else:
+        notice_list = Notice.objects.all()[1:]
 
     paginator = Paginator(notice_list, 4)
     page_number = request.GET.get('page')
     notices = paginator.get_page(page_number)
 
-    return render(request, 'notice_list.html', {'notices': notices, 'first_notice': first_notice})
+    context = {
+        'notices': notices,
+        'first_notice': first_notice,
+        'query': query,
+        'is_searching': bool(query),
+    }
+
+    return render(request, 'notice_list.html', context)
 
 
 def show_notice(request, id):
