@@ -3,6 +3,8 @@ from django.core.paginator import Paginator
 from .models import Notice
 from .forms import CommentForm
 from category.models import Category
+from taggit.models import Tag
+
 
 # Create your views here.
 def notice_list(request):
@@ -63,3 +65,18 @@ def show_notice_for_category(request, category_id):
     notices = paginator.get_page(page_number)
 
     return render(request, 'notice_list.html', {'notices': notices, 'first_notice': first_notice})
+
+
+def tagged_notices(request, tag_slug):
+    tag = Tag.objects.get(slug=tag_slug)
+    notices = Notice.objects.filter(tags__in=[tag])
+
+    paginator = Paginator(notices, 4)
+    page_number = request.GET.get('page')
+    notices = paginator.get_page(page_number)
+
+    context = {
+        'notices': notices,
+    }
+
+    return render(request, 'tagged_notices.html', context)

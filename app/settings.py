@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'notice',
     'category',
     'user',
+    'taggit',
 ]
 
 MIDDLEWARE = [

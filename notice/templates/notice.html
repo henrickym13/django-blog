@@ -20,6 +20,13 @@
         <section class="mb-5">
             <p class="fs-5 mb-4">{{ notice.description| linebreaks }}</p>
         </section>
+        <p><strong>Tags:</strong> 
+            {% for tag in notice.tags.all %}
+                <a href="{% url 'tagged_notices' tag.slug %}" class="badge bg-primary">{{ tag.name }}</a>
+            {% empty %}
+                Nenhuma tag
+            {% endfor %}
+        </p>
     </article>
     <!-- Comments section-->
     <section class="mb-5">

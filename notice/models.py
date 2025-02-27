@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from category.models import Category
-
+from taggit.managers import TaggableManager
 
 # Create your models here.
 class Notice(models.Model):
@@ -12,6 +12,7 @@ class Notice(models.Model):
     preview = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='notices/')
     created_at = models.DateTimeField(auto_now_add=True)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['-created_at']

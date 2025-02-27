@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-8">
+    <div class="row">
+        {% for notice in notices %}
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <a href="{% url 'notice' notice.id %}">
+                    <img class="card-img-top" src="{{ notice.image.url }}" alt="{{ notice.title }}" />
+                </a>
+                <div class="card-body">
+                    <div class="small text-muted">{{ notice.created_at }}</div>
+                    <h2 class="card-title h4">{{ notice.title }}</h2>
+                    <p class="card-text">{{ notice.preview }}</p>
+                    <a class="btn btn-primary" href="{% url 'notice' notice.id %}">Ler mais →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
