@@ -71,7 +71,7 @@ O blog estará disponível em `http://127.0.0.1:8000/`.
 
 ## 📸 Capturas de Tela
 
-(home_screen.png)
+<p><img src="home_screen.png"></p>
 
 ## 🤝 Contribuição
 
