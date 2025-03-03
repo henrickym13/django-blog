@@ -1,20 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Blog entries-->
-<div class="col-lg-8">
-    <!-- Featured blog post-->
-    <div class="card mb-4">
-        <a href="#!"><img class="card-img-top" src="{{ first_notice.image.url }}" alt="..." /></a>
-        <div class="card-body">
-            <div class="small text-muted">{{ first_notice.created_at }}</div>
-            <h2 class="card-title">{{ first_notice.title }}</h2>
-            <p class="card-text">{{ first_notice.preview }}</p>
-            <a class="btn btn-primary" href="{% url 'notice' first_notice.id %}">Ler mais →</a>
-        </div>
-    </div>
+<h3>Resultados para "{{ query }}"</h3>
 
-    <!-- Renders news normally when there is no search -->
+{% if notices %}
+<div class="col-lg-8">
     <div class="row">
         {% for notice in notices %}
         <div class="col-lg-6">
@@ -32,6 +22,8 @@
         </div>
         {% endfor %}
     </div>
-    {% include 'components/_pagination.html' %}
+    {% else %}
+    <p class="text-muted">Nenhuma notícia encontrada para "{{ query }}".</p>
+    {% endif %}
 </div>
 {% endblock %}

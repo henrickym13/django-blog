@@ -4,17 +4,13 @@ from .models import Notice
 from .forms import CommentForm
 from category.models import Category
 from taggit.models import Tag
+from django.db.models import Q
 
 
 # Create your views here.
 def notice_list(request):
-    query = request.GET.get('q', '')
+    notice_list = Notice.objects.all()
     first_notice = Notice.objects.first()
-
-    if query:
-        notice_list = Notice.objects.filter(title__icontains=query)
-    else:
-        notice_list = Notice.objects.all()[1:]
 
     paginator = Paginator(notice_list, 4)
     page_number = request.GET.get('page')
@@ -23,11 +19,34 @@ def notice_list(request):
     context = {
         'notices': notices,
         'first_notice': first_notice,
+    }
+
+    return render(request, 'notice_list.html', context)
+
+
+def search_notices(request):
+    query = request.GET.get('q', '')
+    notices = Notice.objects.none()
+
+    if query:
+        notices = Notice.objects.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+
+    paginator = Paginator(notices, 4)
+    page_number = request.GET.get('page')
+    notices = paginator.get_page(page_number)
+
+    context = {
+        'notices': notices,
         'query': query,
         'is_searching': bool(query),
     }
 
-    return render(request, 'notice_list.html', context)
+    return render(request, 'search_results.html', context)
+
 
 
 def show_notice(request, id):

@@ -26,7 +26,7 @@
                     <div class="card mb-4">
                         <div class="card-header">Procurar</div>
                         <div class="card-body">
-                            <form method="GET" action="{% url 'notice_list' %}">
+                            <form method="GET" action="{% url 'search_notices' %}">
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="q" placeholder="Digite o título..."
                                      value="{{ query }}" aria-label="Buscar notícia..." />
@@ -49,11 +49,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Side widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Side Widget</div>
-                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
                     </div>
                 </div>
             </div>
